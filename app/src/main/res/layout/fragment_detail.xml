@@ -1,0 +1,83 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:paddingStart="?attr/listPreferredItemPaddingStart"
+    android:paddingEnd="?attr/listPreferredItemPaddingEnd">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingTop="?attr/listPreferredItemPaddingStart">
+
+
+        <EditText
+            android:id="@+id/inp_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lblTitle"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+        <EditText
+            android:id="@+id/inp_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lblText"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/inp_categories"
+            android:text="@string/lblCategories"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <Spinner
+            android:id="@+id/inp_categories"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_other_height"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:labelFor="@id/inp_priority"
+            android:text="@string/lblPriority"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+        <Spinner
+            android:id="@+id/inp_priority"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_other_height"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+        <EditText
+            android:id="@+id/inp_date"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/lblDate"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+        <Switch
+            android:id="@+id/inp_done"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/detail_other_height"
+            android:text="@string/lblDone"
+            android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+
+    </LinearLayout>
+
+</ScrollView>
