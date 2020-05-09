@@ -10,6 +10,7 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.navigation.fragment.NavHostFragment;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -24,6 +25,10 @@ public class MainActivity extends AppCompatActivity {
     private static final int WRITE_REQUEST_CODE = 2107635;
     private Item currentItem;
     private PrioritManager manager;
+    private FloatingActionButton fab;
+    private boolean isListShown;
+    private DetailFragment detailFragment;
+    private ListFragment listFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +37,25 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
+        fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (isListShown) {
+                    Item item = new Item();
+                    if (manager.addItem(item)) {
+                        currentItem = item;
 
+                        NavHostFragment.findNavController(listFragment)
+                                .navigate(R.id.action_ListFragment_to_DetailFragment);
+                    } else {
+                        Log.println(Log.ERROR, "voruti", "Error on adding new item");
+                    }
+                } else {
+                    Item item = detailFragment.saveCurrent();
+                    if (!manager.updateItem(item))
+                        Log.println(Log.ERROR, "voruti", "Error on saving item");
+                }
             }
         });
 
@@ -93,6 +112,22 @@ public class MainActivity extends AppCompatActivity {
 
     void setCurrentItem(Item currentItem) {
         this.currentItem = currentItem;
+    }
+
+    void setDetailFragment(DetailFragment detailFragment) {
+        this.detailFragment = detailFragment;
+    }
+
+     void setListFragment(ListFragment listFragment) {
+        this.listFragment = listFragment;
+    }
+
+    void switchTo(boolean isListShown) {
+        this.isListShown = isListShown;
+        if (isListShown)
+            fab.setImageResource(android.R.drawable.ic_menu_add);
+        else
+            fab.setImageResource(android.R.drawable.ic_menu_save);
     }
 
     /*

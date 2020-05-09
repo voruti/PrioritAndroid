@@ -1,7 +1,6 @@
 package voruti.prioritandroid;
 
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -32,12 +31,15 @@ public class ListFragment extends Fragment {
     public void onViewCreated(@NonNull View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        MainActivity mainActivity = ((MainActivity) getActivity());
+        mainActivity.setListFragment(this);
+
         final RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(layoutManager);
         List<Item> itemList = new ArrayList<>();
         RecyclerView.Adapter adapter = new ItemAdapter(itemList, item -> {
-            ((MainActivity) getActivity()).setCurrentItem(item);
+            mainActivity.setCurrentItem(item);
 
             NavHostFragment.findNavController(ListFragment.this)
                     .navigate(R.id.action_ListFragment_to_DetailFragment);
@@ -48,12 +50,14 @@ public class ListFragment extends Fragment {
                 DividerItemDecoration.VERTICAL));
 
         try {
-            while (((MainActivity) getContext()).getManager() == null)
+            while (mainActivity.getManager() == null)
                 Thread.sleep(100);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
-        itemList.addAll(((MainActivity) getContext()).getManager().getAllItems());
+        itemList.addAll(mainActivity.getManager().getAllItems());
+
+        mainActivity.switchTo(true);
     }
 }
