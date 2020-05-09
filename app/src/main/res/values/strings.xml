@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">PrioritAndroid</string>
+    <string name="app_name" translatable="false">PrioritAndroid</string>
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="list_fragment_label">List Fragment</string>
@@ -11,6 +11,6 @@
     <string name="lblCategories">Categories</string>
     <string name="lblPriority">Priority</string>
     <string name="lblDate">est. Date</string>
-    <string name="date">%1$02d-%2$02d-%3$02d</string>
+    <string name="date" translatable="false">%1$02d-%2$02d-%3$02d</string>
     <string name="lblDone">Done</string>
 </resources>

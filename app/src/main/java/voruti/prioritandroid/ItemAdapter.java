@@ -13,37 +13,14 @@ import voruti.priorit.Item;
 
 public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.OwnViewHolder> {
 
+    private static MainActivity mainActivity;
     private List<Item> items;
     private IOnItemClickListener clickListener;
 
-    // Provide a reference to the views for each data item
-    // Complex data items may need more than one view per item, and
-    // you provide access to all the views for a data item in a view holder
-    public static class OwnViewHolder extends RecyclerView.ViewHolder {
-        // each data item is just a string in this case
-        public TextView textView;
-
-        public OwnViewHolder(View itemView) {
-            super(itemView);
-
-            textView = itemView.findViewById(R.id.textView);
-        }
-
-        public void bind(final Item item, final IOnItemClickListener clickListener) {
-            String text = String.format("%s%.20s (%s)", item.isDone() ? "Done: " : "", item.getTitle(), item.getuName());
-            textView.setText(text);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    clickListener.onItemClick(item);
-                }
-            });
-        }
-    }
-
-    public ItemAdapter(List<Item> items, IOnItemClickListener clickListener) {
+    public ItemAdapter(List<Item> items, IOnItemClickListener clickListener, MainActivity mainActivity) {
         this.items = items;
         this.clickListener = clickListener;
+        ItemAdapter.mainActivity = mainActivity;
     }
 
     // Create new views (invoked by the layout manager)
@@ -69,6 +46,34 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.OwnViewHolder>
     @Override
     public int getItemCount() {
         return items.size();
+    }
+
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    public static class OwnViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView textView;
+
+        public OwnViewHolder(View itemView) {
+            super(itemView);
+
+            textView = itemView.findViewById(R.id.textView);
+        }
+
+        public void bind(final Item item, final IOnItemClickListener clickListener) {
+            String text = String.format("%s%.20s (%s)",
+                    item.isDone() ? mainActivity.getString(R.string.lblDone) + ": " : "",
+                    item.getTitle(),
+                    item.getuName());
+            textView.setText(text);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    clickListener.onItemClick(item);
+                }
+            });
+        }
     }
 }
 

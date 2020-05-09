@@ -43,7 +43,7 @@ public class ListFragment extends Fragment {
 
             NavHostFragment.findNavController(ListFragment.this)
                     .navigate(R.id.action_ListFragment_to_DetailFragment);
-        });
+        }, mainActivity);
         recyclerView.setAdapter(adapter);
 
         recyclerView.addItemDecoration(new DividerItemDecoration(recyclerView.getContext(),

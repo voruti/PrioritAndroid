@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="lblTitle">Titel</string>
+    <string name="lblCategories">Kategorien</string>
+    <string name="lblPriority">Priorität</string>
+    <string name="lblDate">Zieldatum</string>
+    <string name="lblDone">Erledigt</string>
+    <string name="element_text">Platzhalter</string>
+    <string name="action_settings">Einstellungen</string>
+</resources>
