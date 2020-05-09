@@ -15,11 +15,15 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import com.thomashaertel.widget.MultiSpinner;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
+import java.util.List;
 
 import voruti.priorit.Item;
 import voruti.priorit.Priority;
@@ -30,10 +34,34 @@ public class DetailFragment extends Fragment {
 
     private EditText textTitle;
     private EditText textText;
-    private Spinner spinnerCategories;
+    private MultiSpinner spinnerCategories;
     private Spinner spinnerPriority;
     private EditText editDate;
     private Switch switchDone;
+    private String[] allCategories;
+
+    private static <T> boolean[] generateSelected(T[] all, T[] selectedOnes) {
+        boolean[] array = new boolean[all.length];
+
+        for (int i = 0; i < all.length; i++)
+            for (T selectedOne : selectedOnes)
+                if (all[i].equals(selectedOne)) {
+                    array[i] = true;
+                    break;
+                }
+
+        return array;
+    }
+
+    private static <T> T[] generateObjects(T[] all, boolean[] array) {
+        List<T> list = new ArrayList<T>();
+
+        for (int i = 0; i < array.length; i++)
+            if (array[i])
+                list.add(all[i]);
+
+        return (T[]) list.toArray();
+    }
 
     @Override
     public View onCreateView(
@@ -59,9 +87,11 @@ public class DetailFragment extends Fragment {
         textText.setText(item.getText());
 
         spinnerCategories = view.findViewById(R.id.inp_categories);
-        ArrayAdapter<String> adapterCategories = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, mainActivity.getManager().getAllCategories().toArray(new String[]{}));
-        adapterCategories.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerCategories.setAdapter(adapterCategories);
+        allCategories = mainActivity.getManager().getAllCategories().toArray(new String[]{});
+        ArrayAdapter<String> adapterCategories = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, allCategories);
+        spinnerCategories.setAdapter(adapterCategories, false, selected -> {
+        });
+        spinnerCategories.setSelected(generateSelected(allCategories, item.getCategories().toArray()));
 
         spinnerPriority = view.findViewById(R.id.inp_priority);
         ArrayAdapter<String> adapterPriority = new ArrayAdapter<String>(getContext(), android.R.layout.simple_spinner_item, new String[]{"VERY_LOW", "LOW", "MED", "HIGH", "VERY_HIGH"});
@@ -106,13 +136,14 @@ public class DetailFragment extends Fragment {
         item.setuName(mainActivity.getCurrentItem().getuName());
         item.setTitle(textTitle.getText().toString());
         item.setText(textText.getText().toString());
-//        item.setCategories();
+        item.setCategories(Arrays.asList(generateObjects(allCategories, spinnerCategories.getSelected())));
         item.setPriority(Priority.valueOf(spinnerPriority.getSelectedItem().toString()));
         try {
             Date date = new SimpleDateFormat("yyyy-MM-dd").parse(editDate.getText().toString());
             item.setEtaDate(date);
         } catch (ParseException e) {
             Log.println(Log.ERROR, "voruti", "SimpleDateFormat error!");
+            mainActivity.p("SimpleDateFormat error");
             e.printStackTrace();
         }
         item.setDone(switchDone.isChecked());

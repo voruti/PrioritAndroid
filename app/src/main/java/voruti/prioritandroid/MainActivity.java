@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -50,11 +51,14 @@ public class MainActivity extends AppCompatActivity {
                                 .navigate(R.id.action_ListFragment_to_DetailFragment);
                     } else {
                         Log.println(Log.ERROR, "voruti", "Error on adding new item");
+                        p("New item can not be added");
                     }
                 } else {
                     Item item = detailFragment.saveCurrent();
-                    if (!manager.updateItem(item))
+                    if (!manager.updateItem(item)) {
                         Log.println(Log.ERROR, "voruti", "Error on saving item");
+                        p("Item can not be saved");
+                    }
                 }
             }
         });
@@ -66,6 +70,7 @@ public class MainActivity extends AppCompatActivity {
             manager = new PrioritManager(externalStorageDirectory);
         } catch (IOException e) {
             Log.println(Log.ERROR, "voruti", "PrioritManager threw IOException; " + e.getMessage() + ", " + e.getCause());
+            p("PrioritManager Exception");
             e.printStackTrace();
 
             // from https://stackoverflow.com/q/2663491 :
@@ -118,7 +123,7 @@ public class MainActivity extends AppCompatActivity {
         this.detailFragment = detailFragment;
     }
 
-     void setListFragment(ListFragment listFragment) {
+    void setListFragment(ListFragment listFragment) {
         this.listFragment = listFragment;
     }
 
@@ -128,6 +133,10 @@ public class MainActivity extends AppCompatActivity {
             fab.setImageResource(android.R.drawable.ic_menu_add);
         else
             fab.setImageResource(android.R.drawable.ic_menu_save);
+    }
+
+    void p(String text) {
+        Toast.makeText(this, text, text.length() < 20 ? Toast.LENGTH_SHORT : Toast.LENGTH_LONG).show();
     }
 
     /*

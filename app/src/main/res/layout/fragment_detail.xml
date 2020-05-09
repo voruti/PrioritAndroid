@@ -39,7 +39,7 @@
             android:text="@string/lblCategories"
             android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-        <Spinner
+        <com.thomashaertel.widget.MultiSpinner
             android:id="@+id/inp_categories"
             android:layout_width="match_parent"
             android:layout_height="@dimen/detail_other_height"
