@@ -62,11 +62,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.OwnViewHolder>
         }
 
         public void bind(final Item item, final IOnItemClickListener clickListener) {
-            String text = String.format("%s%.20s (%s)",
-                    item.isDone() ? mainActivity.getString(R.string.lblDone) + ": " : "",
-                    item.getTitle(),
-                    item.getuName());
-            textView.setText(text);
+            textView.setText(item.toString());
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
